@@ -10,8 +10,12 @@
 		public function getRegistro(){
 			return $this->registro;
 		}
-		public function addRegistro($produto){
-			$this->registro[$produto] = $this->cardapio[$produto];
+		public function addRegistro($produto,$cardapio){
+			if(isset($this->registro[$produto])){
+			$this->registro[$produto]= $this->registro[$produto] + $cardapio->getItem($produto);
+		}else{
+				$this->registro[$produto] = $cardapio->getItem($produto);
+		}
 		}
 		public function getGarcom(){
 			return $this->garcom;
@@ -30,19 +34,15 @@
 			$this->garcom = $garcom;
 		}
 		//Metodos
+		public function registraPedido($produto,$cardapio){
+				$this->addRegistro($produto,$cardapio);
 		
-		public function registraPedido($produto){
-			if(isset($cardapio[$produto])){
-				$this->addRegistro($produto);
-			}else{
-				echo "Produto indisponivel: ".$produto;
-			}
 		}
-		public function mostrarConta(){
-			echo "\nComanda\n";
-			echo  "Mesa ".$this->getMesa()."\n";
+		public function mostraComanda(){
+			echo "\nComanda ".$this->getNumero()."\n\n";
+			
 			foreach($this->registro as $chave => $valor){
-				echo $chave . " " . $valor."\n";
+				echo $chave . "  R$ " . $valor."\n";
 		}
 		}
 	}

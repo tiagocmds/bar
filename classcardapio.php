@@ -1,33 +1,35 @@
 <?php
-	
 	class Cardapio{
 		//Atributos
-		private $produto;
+		private $item;
 		//Metodos Especiais
-		public function setProduto($produto,$valor){
-			$this->produto[$produto] = $valor;
+		private function setItem($produto,$valor){
+			$this->item[$produto] = $valor;
 		}
-		public function getProduto(){
-			return $this->produto;
+		public function hasItem($produto){
+			return isset($this->item[$produto]);
+		}
+		public function getPreco($produto){
+			return $this->item[$produto];
+		}
+		public function getItem($produto){
+			return array($produto => $this->item[$produto]);
 		}
 		public function __construct(){
 
-			$this->produto["PASTEL"] = 2.5;
-			$this->produto["FRANGO"] = 15;
-			$this->produto["CHURRASCO"] = 5;
-			$this->produto["ANTARTICA"] = 8;
-			$this->produto["SKOL"] = 7.5;
-			$this->produto["HEINEKEN"] = 10;
-			$this->produto["SALADA"] = 25;
-			
+			$this->setItem("PASTEL",2.5);
+			$this->setItem("FRANGO",15);
+			$this->setItem("CHURRASCO",5);
+			$this->setItem("ANTARTICA",8);
+			$this->setItem("SKOL",7.5);
+			$this->setItem("HEINEKEN",10);
+			$this->setItem("SALADA",25;);
+	
 		}
 		public function mostraProdutos(){
 			foreach($this->produto as $chave => $valor){
 					echo $chave." R$ ".$valor."\n";
 			}
 		}
-
 	}
-
-
 ?>

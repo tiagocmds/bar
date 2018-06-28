@@ -52,54 +52,62 @@
 		public function abrirCaixa(){
 			$this->status= true;
 		}
-		public function calculaTroco(){
+		public function calculaConta($comanda){
+			foreach($comanda->getRegistro()as $chave=>$valor)
+				$this->setConta($this->getConta()+$valor);
+				echo "Valor Total = ".$this->getConta()."\n";
+		}
+		public function calculaTroco($valor){
 			if($this->getStatus()){
 				if($valor > $this->getConta()){
-					$this->setDinheiro($this->getConta() - $valor);
+					$this->setDinheiro($this->getDinheiro() + $this->getConta() - $valor);
 				}else{
-					echo "Sem Troco";
+					echo "Sem Troco\n";
 				}
 			}else{
-				echo "Por favor abra o caixa";
+				echo "Por favor abra o caixa\n";
 			}
 		}
 		public function pagaDinheiro($valor){
 			if($this->getStatus()){
 				if($valor < $this->getConta()){
-					echo "Valor Insuficiente";
+					echo "Valor Insuficiente\n";
 				}else{
-					$this->calculaTroco();
-					$this->setDinheiro($this->getDinheir()+$valor);
-					echo "Conta Paga Com Sucesso";
+					$this->calculaTroco($valor);
+					$this->setDinheiro($this->getDinheiro()+$valor);
+					$this->setConta(0);
+					echo "Conta Paga Com Sucesso\n";
 				}
 			}else{
-				echo "Por favor abra o caixa";
+				echo "Por favor abra o caixa\n";
 			}
 		}	
 		public function pagaCartao($validacao){
 			if($this->getStatus()){
-				if($validacao="aceito"){
+				if($validacao=="aceito"){
 					$this->setCartao($this->getCartao()+$this->getConta());
-					echo "Conta Paga Com Sucesso";
+					$this->setConta(0);
+					echo "Conta Paga Com Sucesso\n";
 				}else{
-					echo "Cartão Inválido";
+					echo "Cartão Inválido\n";
 				}
 			}else{
-				echo "Por favor abra o caixa";
+				echo "Por favor abra o caixa\n";
 			}
 		}	
-		public function fecharConta(){			
+		/*public function fecharConta(){			
 				foreach($this->registro as $chave => $valor){				
 					$this->setConta($this->getConta() + $valor);		
 				}	
 			}
+			*/
 		public function fecharCaixa(){
 			if($this->getStatus()){
 				$this->setDinheiro($this->getDinheiro() - 250);
 				$this->setTotal($this->getDinheiro() + $this->getCartao());
 				$this->setStatus(false);
 			}else{
-				echo "Caixa já está fechado";
+				echo "Caixa já está fechado\n";
 			}	
 		}
 		public function mostraCaixa(){
