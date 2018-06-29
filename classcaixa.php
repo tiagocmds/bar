@@ -1,63 +1,81 @@
 <?php
 	require_once "classcomanda.php";
 	class Caixa{
+		//Atributos
 		private $total;
 		private $data;
 		private $dinheiro;
 		private $cartao;
 		private $status;
 		private $conta;
-
-		public function getStatus(){
+		//Metodos Especiais
+		private function getStatus(){
 			return $this->status;
 		}
-		public function getTotal(){
+		private function getTotal(){
 			return $this->total;
 		}
-		public function getData(){
+		private function getData(){
 			return $this->data;
 		}
-		public function getDinheiro(){
+		private function getDinheiro(){
 			return $this->dinheiro;
 		}
-		public function getCartao(){
+		private function getCartao(){
 			return $this->cartao;
 		}
-		public function setStatus($status){
+		private function setStatus($status){
 			$this->status=$status;
 		}
-		public function setTotal($total){
+		private function setTotal($total){
+			if(is_numeric($total)){
 			$this->total=$total;
+			}else{
+				echo "Valor informado não é um numero";
+			}
 		}
-		public function setData($data){
+		private function setData($data){
 			$this->data=$data;
 		}
-		public function setDinheiro($valor){
+		private function setDinheiro($valor){
+			if(is_numeric($valor)){
 			$this->dinheiro=$valor;
+			}else{
+				echo "Valor informado não é um numero";
+			}
 		}
-		public function setCartao($valor){
+		private function setCartao($valor){
+			if(is_numeric($valor)){
 			$this->cartao=$valor;
+			}else{
+				echo "Valor informado não é um numero";
+			}
 		}
-		public function getConta(){
+		private function getConta(){
 			return $this->conta;
 		}
-		public function setConta($valor){
+		private function setConta($valor){
+			if(is_numeric($valor)){
 			$this->conta = $valor;
+			}else{
+				echo "Valor informado não é um numero";
+			}
 		}
-		public function __construct($data){
-			$this->data=$data;
-			$this->dinheiro = 250;
-			$this->status = false;
+		public function __construct(){
+			$this->data= date("d-m-y");
+			$this->setDinheiro(number_format(250,2));
+			$this->setStatus(false);
 		}
+		//Metodos
 		public function abrirCaixa(){
 			$this->status= true;
 		}
 		public function calculaConta($comanda){
 			foreach($comanda->getRegistro()as $chave=>$valor)
 				$this->setConta($this->getConta()+$valor);
-				echo "Valor Total = ".$this->getConta()."\n";
+				echo "Valor Total = ".number_format($this->getConta(),2)."\n";
 		}
-		public function calculaTroco($valor){
+		private function calculaTroco($valor){
 			if($this->getStatus()){
 				if($valor > $this->getConta()){
 					$this->setDinheiro($this->getDinheiro() + $this->getConta() - $valor);
@@ -68,7 +86,7 @@
 				echo "Por favor abra o caixa\n";
 			}
 		}
-		public function pagaDinheiro($valor){
+		private function pagaDinheiro($valor){
 			if($this->getStatus()){
 				if($valor < $this->getConta()){
 					echo "Valor Insuficiente\n";
@@ -82,7 +100,7 @@
 				echo "Por favor abra o caixa\n";
 			}
 		}	
-		public function pagaCartao($validacao){
+		private function pagaCartao($validacao){
 			if($this->getStatus()){
 				if($validacao=="aceito"){
 					$this->setCartao($this->getCartao()+$this->getConta());
@@ -95,13 +113,7 @@
 				echo "Por favor abra o caixa\n";
 			}
 		}	
-		/*public function fecharConta(){			
-				foreach($this->registro as $chave => $valor){				
-					$this->setConta($this->getConta() + $valor);		
-				}	
-			}
-			*/
-		public function fecharCaixa(){
+		private function fecharCaixa(){
 			if($this->getStatus()){
 				$this->setDinheiro($this->getDinheiro() - 250);
 				$this->setTotal($this->getDinheiro() + $this->getCartao());
@@ -110,16 +122,16 @@
 				echo "Caixa já está fechado\n";
 			}	
 		}
-		public function mostraCaixa(){
+		private function mostraCaixa(){
 			if($this->getStatus()){
 				echo "Por favor feche o caixa";
 			}else{
 				echo "CAIXA FECHADO\n";
 				echo "\nData: ".$this->getData();
-				echo "\nValor em Dinheiro: ".$this->getDinheiro();
-				echo "\nValor em Cartão: ".$this->getCartao();
-				echo "\nValor Total: ".$this->getTotal();
+				echo "\nValor em Dinheiro: R$ ".number_format($this->getDinheiro(),2);
+				echo "\nValor em Cartão: R$ ".number_format($this->getCartao(),2);
+				echo "\nValor Total: R$ ".number_format($this->getTotal(),2);
 			}
 		}
-		}
+	}
 ?>

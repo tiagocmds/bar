@@ -2,30 +2,39 @@
 	require_once "classcomanda.php";
 	require_once "classcardapio.php";
 	class Garcom{
+		//Atributos
 		private $nome;
 		private $turno;
-
+		//Metodos Especiais
 		public function getNome(){
 			return $this->nome;
 		}
 		private function setNome($nome){
-			//maior que 2 digitos
-			//apenas letras
-			//Primeira letra capitalizada
-
-			$this->nome = $nome;
+			if(strlen($nome)> 3){
+				if(ctype_alpha($nome)){
+					$this->nome = ucfirst($nome);
+				}else{
+					echo "Nome deve ter apenas letras";
+				}
+			}else{
+				echo "Nome deve ter mais que 3 letras";
+			}
 		}
 		public function getTurno(){
 			return $this->turno;
 		}
 		private function setTurno($turno){
-			//validar se o turno informado e um desses valores:Matutino,Vespertino,Noturno
+			if($turno == "matutino"|| $turno == "vespertino"||$turno=="noturno"){
 			$this->turno = $turno;
+			}else{
+				echo "Turno Inválido";
+			}
 		}
 		public function __construct($nome,$turno){
 			$this->setNome($nome);
 			$this->setTurno($turno);
 		}
+		//Metodos
 		public function anotaPedido($comanda,$pedido,$cardapio){
 			if($cardapio->hasItem($pedido)){
 			$comanda->registraPedido($pedido,$cardapio);

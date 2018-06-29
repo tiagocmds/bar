@@ -23,12 +23,12 @@
 			$this->setItem("ANTARTICA",8);
 			$this->setItem("SKOL",7.5);
 			$this->setItem("HEINEKEN",10);
-			$this->setItem("SALADA",25;);
+			$this->setItem("SALADA",25);
 	
 		}
 		public function mostraProdutos(){
-			foreach($this->produto as $chave => $valor){
-					echo $chave." R$ ".$valor."\n";
+			foreach($this->item as $chave => $valor){
+					echo $chave." R$ ".number_format($valor,2)."\n";
 			}
 		}
 	}
